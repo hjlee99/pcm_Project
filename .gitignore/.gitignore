@@ -1,0 +1,217 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<windows.h>
+
+
+typedef struct stad{  
+	char name[20];
+	char num[20];
+	char info[100];
+}stdata;
+
+	void InsertTel();
+	void DeleteTel();
+	void SearchTel();
+	void PrintTel();
+	void appTel();
+
+	stdata *name;
+	stdata *num;
+	stdata *info;
+
+int main(){ //메인화면(구현O) 
+while(1){
+
+	int menu = 0;
+		 printf("\n\n\n전화번호부\n\n\n");
+		 printf("1. 등록\n"); 
+		 printf("2. 삭제\n");
+		 printf("3. 검색\n");
+		 printf("4. 출력\n");
+		 printf("5. 수정\n");
+		 printf("6. 종료\n"); 
+		 printf("메뉴 번호 : ");
+		 scanf("%d", &menu);
+ 
+ switch(menu)
+ {
+		  case 1: InsertTel(); break;
+		  case 2: DeleteTel(); break;
+		  case 3: SearchTel(); break;
+		  case 4: PrintTel(); break;
+		  case 5: appTel(); break;
+		  case 6: exit(1); break;
+		  default: printf(" 다시 입력해주세요\n");
+  }
+  }
+}
+void InsertTel(){ //전화번호 추가(구현O) 
+	
+	char name[20];
+	char num[11];
+	char info[100];
+	
+	int choose = 0;
+	
+ 	FILE *db1;
+ 	
+ 	db1 = fopen("Tel_DB.txt","a"); 
+	
+ 	if (db1 == NULL){
+		printf("오류가 발생하였습니다.\n");
+	}
+	
+ 	system("cls");
+ 	printf("\n이름 : "); 
+	scanf("%s",name);
+	
+ 	printf("\n전화번호(-없이 숫자만 ): "); 
+	scanf("%s",num);
+	
+	printf("\n정보 : ");
+	scanf("%s", info);
+ 	
+ 	printf("\n1. OK   2.CANCEL  : ");
+ 	scanf("%d", &choose);
+  
+ switch(choose)
+ {
+  	case 1: printf("저장되었습니다.\n");
+	  Sleep(1000); system("cls");
+  			
+  			fprintf(db1, "%s %s %s\n", name, num, info); 
+	  	    fclose(db1);
+			  
+			break;
+	  		
+  	case 2: printf("저장되지 않았습니다. 메인화면으로 돌아갑니다.");Sleep(1000); system("cls");	break;
+  	
+	default : printf("다시 입력해주세요 "); 
+ }
+}
+void DeleteTel(){ //전화번호 삭제(구현X) 
+
+	
+	int result;
+	int current;
+
+	FILE *fp = fopen("Tel_DB.txt","rt");
+	char deln[20];
+	printf("삭제할 이름을 입력해주세요 : ");
+	scanf("%s", deln);
+	char buf[256];
+	char buf1[256];
+	int len;
+	int count = 0;
+	int i=0;
+	
+	while(1){
+	fgets(buf1,256,fp);
+	len = strlen(buf1);
+	
+	if(len==0)
+	break;
+	
+	count++;
+	
+	buf1[0]='\0';
+	
+	}
+
+	fseek(fp, 0L, SEEK_SET);
+	for(i=0; i<count; i++){
+		fgets(buf, sizeof(buf), fp);
+		result = strcmp(deln, name->name);
+		
+	}
+	
+	
+	
+	fclose(fp);
+
+}
+
+void SearchTel(){ //전화번호 검색(조금 부족한 부분이있음 구현 O) 
+
+ 	FILE *db2;
+	int i,count;
+	
+	char name[20];
+	char num[11];
+	char info[100];
+	
+	stdata data[200];
+	
+	printf("\n\n이름 입력 : ");
+	scanf("%s", name);
+	
+	db2 = fopen("Tel_DB.txt","r");
+	if(db2 == NULL){
+		printf("file open error\n");
+		return ;
+	}
+	
+	count =0;
+	while(!feof(db2))
+	{
+		fscanf(db2, "%s %s %s", data[count].name, data[count].num,data[count].info);
+		count++;
+	}
+	
+	for(i=0; i<count; i++){
+		if (strcmp(data[i].name,name)==0)
+		{
+			printf("%s %s %s\n",data[i].name, data[i].num,data[i].info);
+		}
+	}
+	
+	fseek(db2,0,SEEK_SET); 
+	char *a = name; 
+	char *b = name; 
+	while(!feof(db2)){
+		if(strcmp(a,b)!=0){
+			printf("입력한 결과가 없습니다.\n");
+		}
+		break;
+	}
+
+	
+}
+void PrintTel(){ //전화번호 출력 (구현O) 
+	printf("\n\n\n저장되어있는 전화번호\n");
+	FILE * fp = fopen("Tel_DB.txt", "rt");
+	
+	char buf[256];
+	char buf1[256];
+	int len;
+	int count = 0;
+	int i=0;
+	
+	
+	while(1){
+	fgets(buf1,256,fp);
+	len = strlen(buf1);
+	
+	if(len==0)
+	break;
+	
+	count++;
+	
+	buf1[0]='\0';
+	
+	}
+
+	fseek(fp, 0L, SEEK_SET);
+	for(i=0; i<count; i++){
+		fgets(buf, sizeof(buf), fp);
+		printf("%s", buf);
+		
+	}
+	fclose(fp);
+}
+void appTel(){//전화번호 수정(구현X)
+
+}
+
+
